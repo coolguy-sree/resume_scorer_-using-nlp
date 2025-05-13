@@ -1,0 +1,10 @@
+Flask
+google-generativeai
+PyMuPDF
+python-docx
+matplotlib
+numpy
+pandas
+scikit-learn
+nltk
+spacy

@@ -1,0 +1,98 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Resume Analysis</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f8f9fa;
+        }
+        h2 {
+            color: #333;
+        }
+        form {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 700px;
+        }
+        label {
+            font-weight: bold;
+        }
+        textarea {
+            width: 100%;
+            font-family: monospace;
+            font-size: 14px;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            resize: vertical;
+        }
+        input[type="file"] {
+            margin-top: 5px;
+        }
+        input[type="submit"] {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        .note {
+            font-size: 12px;
+            color: #666;
+            margin-top: -10px;
+            margin-bottom: 15px;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const fileInput = document.getElementById('resume_file');
+            const resumeTextarea = document.getElementById('resume');
+
+            fileInput.addEventListener('change', function() {
+                if (fileInput.files.length > 0) {
+                    resumeTextarea.value = '';
+                    resumeTextarea.disabled = true;
+                } else {
+                    resumeTextarea.disabled = false;
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <h2>Upload Resume and Job Description</h2>
+    {% if errors %}
+        <div style="color: red; margin-bottom: 15px;">
+            <ul>
+            {% for error in errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <label for="resume">Resume Text:</label><br>
+        <textarea id="resume" name="resume" rows="10" cols="80" placeholder="Paste your resume text here if not uploading a file">{{ resume|default('') }}</textarea><br><br>
+        
+        <label for="job_description">Job Description:</label><br>
+        <textarea id="job_description" name="job_description" rows="10" cols="80" placeholder="Paste the job description here">{{ job_description|default('') }}</textarea><br><br>
+        
+        <label for="resume_file">Upload Resume (PDF, DOC, DOCX):</label><br>
+        <input type="file" id="resume_file" name="resume_file" accept=".pdf,.doc,.docx"><br>
+        <div class="note">If you upload a file, the text area above will be disabled.</div><br>
+        
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
